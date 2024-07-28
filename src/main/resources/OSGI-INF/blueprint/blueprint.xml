@@ -5,10 +5,22 @@
     xsi:schemaLocation="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd
                         http://www.osgi.org/xmlns/blueprint/v1.0.0 https://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <bean id="kMeans" class="kmeans.unidimensional.models.KMeans" />
-
-    <service id="IKMeans" 
-        ref="kMeans" 
+    <service id="IKMeans"
+        ref="kMeans"
         interface=" kmeans.unidimensional.services.IKMeans" />
+
+    <bean id="kMeans" class="kmeans.unidimensional.models.KMeans">
+        <property name="numClusters" value="${numClusters}" />
+        <property name="numIterations" value="${numIterations}" />
+    </bean>
+
+    <cm:property-placeholder
+        persistent-id="br.uefs.larsid.soft_iot.kmeans_unidimensional"
+        update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="numClusters" value="4" />
+            <cm:property name="numIterations" value="100" />
+        </cm:default-properties>
+    </cm:property-placeholder>
 
 </blueprint>
